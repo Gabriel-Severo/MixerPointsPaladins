@@ -1,8 +1,7 @@
-var janelas = []
-var cont = 2
+let janela = ''
 async function getStreamers(){
-	var streams = ''
-	var newWindow = window.open('https://mixer.com/browse/games/1386')
+	let streams = ''
+	const newWindow = window.open('https://mixer.com/browse/games/1386')
 	await new Promise((resolve, reject) => {
         setTimeout(() => {
             streams = newWindow.document.getElementsByClassName('container_ZqIuE cardStyle_8PoHy')
@@ -13,29 +12,19 @@ async function getStreamers(){
 	return streams
 }
 
-async function openStream(num){
-	var streams;
-    streams = await getStreamers()
-	pos = 0
-	while (pos < num){
-		janela = window.open(streams[pos].href)
-		janelas.push(janela)
-		pos += 1
-	}
+async function openStream(){
+    const streams = await getStreamers()
+	janela = window.open(streams[0].href)
 }
 
-async function setOnlyAudio(num){
-	await openStream(num)
-	pos = 0
+async function setOnlyAudio(){
+	await openStream()
 	await new Promise((resolve, reject) => {
 		setTimeout(() => {
-			while (pos < num){
-				janelas[pos].document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
-				pos += 1
-			}
-		resolve()
+			janela.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
+			resolve()
 		}, 20000)
 	})
 }
 
-setOnlyAudio(cont)
+setOnlyAudio()
