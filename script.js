@@ -29,13 +29,15 @@ async function openStream(){
 async function setOnlyAudio(){
 	await openStream()
 	janela.onload = () => {
-		while (true){
+		let intervalo = setInterval(() => {
 			resultado = janela.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')
-			if (resultado != null){
-				break
+			try{
+				janela.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
+				clearInterval(intervalo)
+			}catch(e){
+				console.log(e)
 			}
-		}
-		janela.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
+		}, 1000)
 	}
 }
 
