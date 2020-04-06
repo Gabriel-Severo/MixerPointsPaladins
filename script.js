@@ -59,8 +59,14 @@ function isOnline(streamWindow){
 
 async function main(){
 	let num = 0
+	let oldStream
 	while(true){
 		let streams = await getStreams()
+		if (oldStream == streams[0].href){
+			num++
+		}else{
+			num = 0
+		}
 		while(true){
 			if(num == 32){
 				streams = await getStreams()
@@ -86,6 +92,7 @@ async function main(){
 			if(isOnline(streamWindow)){
 				continue
 			}else{
+				oldStream = streams[num].href
 				streamWindow.close()
 				break
 			}
