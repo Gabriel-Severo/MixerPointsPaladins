@@ -1,29 +1,23 @@
-function getStreamers(newWindow){
-	streams = newWindow.document.getElementsByClassName('container_ZqIuE cardStyle_8PoHy')
-	return streams
-}
-
-async function openStream(num){
+async function getStreams(){
 	let streamWindow
 	const newWindow = window.open('https://mixer.com/browse/games/1386')
 	await new Promise((resolve, reject) => {
 		newWindow.onload = () => {
-			resolve()
+			let intervalo = setInterval(() => {
+				streams = newWindow.document.getElementsByClassName('container_ZqIuE cardStyle_8PoHy')
+				if (streams.length != 0){
+					newWindow.close()
+					clearInterval(intervalo)
+					resolve()
+				}
+			}, 1000)
 		}
 	})
-    let streams = getStreamers(newWindow)
-	await new Promise((resolve, reject) => {
-		let intervalo = setInterval(() => {
-			try{
-				streamWindow = window.open(streams[num].href)
-				newWindow.close()
-				clearInterval(intervalo)
-			}catch(e){
-				streams = getStreamers(newWindow)
-			}
-			resolve()
-		}, 1000)			
-	})
+	return streams
+}
+
+function openStream(num, streams){
+	streamWindow = window.open(streams[num].href)
 	return streamWindow
 }
 
@@ -56,8 +50,14 @@ function hasLoot(stream){
 
 async function main(){
 	let num = 0
+	let streams = await getStreams()
 	while(true){
-		let streamWindow = await openStream(num)
+		if(num == 32){
+			streams = await getStreams()
+			num = 0
+			continue
+		}
+		let streamWindow = await openStream(num, streams)
 		await setOnlyAudio(streamWindow)
 		let loot = hasLoot(streamWindow)
 		if(loot){
