@@ -38,8 +38,8 @@ async function setOnlyAudio(streamWindow){
 	})
 }
 
-function hasLoot(stream){
-	let cont = stream.document.getElementsByClassName('subTitle_2Lhiz').length
+function hasLoot(streamWindow){
+	let cont = streamWindow.document.getElementsByClassName('subTitle_2Lhiz').length
 	if (cont == 0){
 		return false
 	}else{
@@ -47,25 +47,49 @@ function hasLoot(stream){
 	}
 }
 
+function isOnline(streamWindow){
+	let result = streamWindow.document.getElementsByClassName('offline-message bui-text-align-center').length
+	if (result == 0){
+		return true
+	}else{
+		return false
+	}
+}
+
 
 async function main(){
 	let num = 0
-	let streams = await getStreams()
 	while(true){
-		if(num == 32){
-			streams = await getStreams()
-			num = 0
-			continue
+		let streams = await getStreams()
+		while(true){
+			if(num == 32){
+				streams = await getStreams()
+				num = 0
+				continue
+			}
+			let streamWindow = await openStream(num, streams)
+			await setOnlyAudio(streamWindow)
+			let loot = hasLoot(streamWindow)
+			if(loot){
+				break
+			}else{
+				streamWindow.close()
+			}
+			num++
 		}
-		let streamWindow = await openStream(num, streams)
-		await setOnlyAudio(streamWindow)
-		let loot = hasLoot(streamWindow)
-		if(loot){
-			break
-		}else{
-			streamWindow.close()
+		while(true){
+			await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve()
+				}, 3000)
+			})
+			if(isOnline(streamWindow)){
+				continue
+			}else{
+				streamWindow.close()
+				break
+			}
 		}
-		num++
 	}
 }
 
