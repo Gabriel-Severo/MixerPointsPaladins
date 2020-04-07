@@ -24,7 +24,6 @@ async function setOnlyAudio(streamWindow){
     await new Promise((resolve, reject) => {        
         streamWindow.onload = () => {
             let intervalo = setInterval(() => {
-                resultado = streamWindow.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')
                 try{
                     streamWindow.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
                     clearInterval(intervalo)
@@ -59,6 +58,7 @@ function isOnline(streamWindow){
 async function main(){
     let num = 0
     let oldStream
+    let timeOn = 0
     while(true){
         let streams = await getStreams()
         if (oldStream == streams[0].href){
@@ -85,11 +85,12 @@ async function main(){
         while(true){
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
+                    console.log(`You have earned approximately ${Math.trunc(timeOn/60/12)} points`)
                     resolve()
                 }, 3000)
             })
             if(isOnline(streamWindow)){
-                continue
+                timeOn+=3
             }else{
                 oldStream = streams[num].href
                 streamWindow.close()
