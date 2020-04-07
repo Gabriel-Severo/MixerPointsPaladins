@@ -85,7 +85,9 @@ async function main(){
         while(true){
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    console.log(`You have earned approximately ${Math.trunc(timeOn/60/12)} points`)
+                    if(timeOn/60 % 12 == 0){
+                        console.log(`You have earned approximately ${Math.trunc(timeOn/60/12)} points`)
+                    }
                     resolve()
                 }, 3000)
             })
