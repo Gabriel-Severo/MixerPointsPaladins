@@ -54,6 +54,15 @@ function isOnline(streamWindow){
     }
 }
 
+function isPaladins(streamWindow){
+    let result
+    if(result.includes('1386')){
+        return true
+    }else{
+        return false
+    }
+}
+
 
 async function main(){
     let num = 0
@@ -90,7 +99,7 @@ async function main(){
                     resolve()
                 }, 3000)
             })
-            if(isOnline(streamWindow)){
+            if(isOnline(streamWindow) && isPaladins(streamWindow)){
                 timeOn+=3
             }else{
                 oldStream = streams[num].href
