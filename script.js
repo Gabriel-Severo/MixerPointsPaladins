@@ -56,6 +56,11 @@ function isOnline(streamWindow){
 
 function isPaladins(streamWindow){
     let result
+    try{
+        result = streamWindow.document.querySelector('.game-cover img').src
+    }catch{
+        return false
+    }
     if(result.includes('1386')){
         return true
     }else{
@@ -84,7 +89,7 @@ async function main(){
             let streamWindow = await openStream(num, streams)
             await setOnlyAudio(streamWindow)
             let loot = hasLoot(streamWindow)
-            if(loot){
+            if(loot && isPaladins(streamWindow)){
                 break
             }else{
                 streamWindow.close()
