@@ -68,6 +68,15 @@ function isPaladins(streamWindow){
     }
 }
 
+function isOffline(streamWindow){
+    let result = streamWindow.document.getElementsByClassName('_1MnMzKqe6F7KhkD6SciXDM _1Yu3fmmBKSWC91ve7TzshH RllhjN12JWYScSbxYitfj').length
+    if (result){
+        return true
+    }else{
+        return false
+    }
+}
+
 
 async function main(){
     let num = 0
@@ -104,7 +113,7 @@ async function main(){
                     resolve()
                 }, 3000)
             })
-            if(isOnline(streamWindow) && isPaladins(streamWindow)){
+            if(isOnline(streamWindow) && isPaladins(streamWindow) && !isOffline(streamWindow)){
                 timeOn+=3
             }else{
                 oldStream = streams[num].href
