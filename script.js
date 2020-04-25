@@ -28,17 +28,15 @@ async function setOnlyAudio(streamWindow){
                     streamWindow.document.getElementsByClassName('_2YmB_I5OliPyB7_rs748W3 _1kIlUXtgizhBW5Drjbvqmm')[1].click()
                     clearInterval(intervalo)
                     resolve()
-                }catch(e){
-                    console.log(e)
-                }
+                }catch{}
             }, 1000)
         }
     })
 }
 
 function hasLoot(streamWindow){
-    let cont = streamWindow.document.getElementsByClassName('subTitle_2Lhiz').length
-    if (cont == 0){
+    const result = streamWindow.document.getElementsByClassName('subTitle_2Lhiz').length
+    if (result == 0){
         return false
     }else{
         return true
@@ -46,7 +44,7 @@ function hasLoot(streamWindow){
 }
 
 function isOnline(streamWindow){
-    let result = streamWindow.document.getElementsByClassName('offline-message bui-text-align-center').length
+    const result = streamWindow.document.getElementsByClassName('offline-message bui-text-align-center').length
     if (result == 0){
         return true
     }else{
@@ -69,7 +67,7 @@ function isPaladins(streamWindow){
 }
 
 function isOffline(streamWindow){
-    let result = streamWindow.document.getElementsByClassName('_1MnMzKqe6F7KhkD6SciXDM _1Yu3fmmBKSWC91ve7TzshH RllhjN12JWYScSbxYitfj').length
+    const result = streamWindow.document.getElementsByClassName('_1MnMzKqe6F7KhkD6SciXDM _1Yu3fmmBKSWC91ve7TzshH RllhjN12JWYScSbxYitfj').length
     if (result){
         return true
     }else{
@@ -97,8 +95,7 @@ async function main(){
             }
             let streamWindow = await openStream(num, streams)
             await setOnlyAudio(streamWindow)
-            let loot = hasLoot(streamWindow)
-            if(loot && isPaladins(streamWindow)){
+            if(hasLoot(streamWindow) && isPaladins(streamWindow)){
                 break
             }else{
                 streamWindow.close()
