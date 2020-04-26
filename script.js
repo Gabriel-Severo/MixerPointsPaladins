@@ -106,12 +106,15 @@ async function main(){
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
                     window.document.body.innerHTML = `You have earned approximately ${Math.trunc(timeOn/60/12)} points`
-                    window.document.body.innerHTML += `</br>Time On: ${Math.trunc(timeOn/60)} min`
+                    let hour = "0"+Math.trunc(timeOn/3600)
+                    let min = "0"+Math.trunc(timeOn%3600/60)
+                    let sec = "0"+timeOn%60
+                    window.document.body.innerHTML += `</br>Time On: ${hour.slice(-2)}:${min.slice(-2)}:${sec.slice(-2)}`
                     resolve()
-                }, 3000)
+                }, 1000)
             })
             if(isOnline(streamWindow) && isPaladins(streamWindow) && !isOffline(streamWindow)){
-                timeOn+=3
+                timeOn++
             }else{
                 oldStream = streams[num].href
                 streamWindow.close()
