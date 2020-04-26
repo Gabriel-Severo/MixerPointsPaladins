@@ -102,6 +102,14 @@ async function main(){
             }
             num++
         }
+        await new Promise((resolve, reject) =>{
+            let interval = setInterval(() => {
+                if(!isOffline(streamWindow)){
+                    clearInterval(interval)
+                    resolve()
+                }
+            }, 1000)
+        })
         while(true){
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
