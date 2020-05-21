@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "name": "Test",
+    "description": "Test",
+    "author": "GabrielR52",
+    "browser_action": {
+   	 "default_title": "Hello World",
+   	 "default_popup": "index.html"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "permissions": ["tabs", "storage", "*://*/*"],
+	"content_scripts":[
+		{
+			"matches": ["*://*/*"],
+            "js": ["page.js"]
+		}
+    ]
+}
